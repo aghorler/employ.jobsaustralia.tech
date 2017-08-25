@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Http\Request;
+use App\Job;
+use App\User;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -15,4 +18,12 @@ use Illuminate\Http\Request;
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::get('/jobs', function (){
+	return Job::all();
+});
+
+Route::get('/users', function (){
+	return User::all();
 });
