@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Job;
 use Auth;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
@@ -22,224 +23,106 @@ class JobController extends Controller
     }
 
     /**
-     * Create a new user instance after a valid registration.
+     * Create a new job.
      *
-     * @param  array  $request
-     * @return \App\Job
+     * @param  Illuminate\Http\Request  $request
+     * @return Illuminate\Support\Facades\Redirect
      */
     protected function create(Request $request)
     {
         $this->validate($request, [
-            'title' => 'required|string|max:255',
+            'title' => 'required|string|regex:/^[a-zA-Z ]+$/|max:255',
             'description' => 'required|string|max:255',
-            'salary' => 'required|string|regex:/^[0-9]*$/|max:255',
-            'availablefrom' => 'required|string|max:255',
-            'location' => 'required|string|max:255',
-            'startdate' => 'required|string|max:255'
+            'hours' => 'required|string|in:fulltime,parttime,casual',
+            'salary' => 'required|integer|min:0|max:20000000',
+            'startdate' => 'required|string|min:10|max:10',
+            'state' => 'required|string|in:vic,nsw,qld,wa,sa,tas,act,nt,oth',
+            'city' => 'required|string|regex:/^[a-zA-Z ]+$/|max:255',
+            'java' => 'required|boolean',
+            'python' => 'required|boolean',
+            'c' => 'required|boolean',
+            'csharp' => 'required|boolean',
+            'cplus' => 'required|boolean',
+            'php' => 'required|boolean',
+            'html' => 'required|boolean',
+            'css' => 'required|boolean',
+            'javascript' => 'required|boolean',
+            'sql' => 'required|boolean',
+            'unix' => 'required|boolean',
+            'winserver' => 'required|boolean',
+            'windesktop' => 'required|boolean',
+            'linuxdesktop' => 'required|boolean',
+            'macosdesktop' => 'required|boolean',
+            'pearl' => 'required|boolean',
+            'bash' => 'required|boolean',
+            'batch' => 'required|boolean',
+            'cisco' => 'required|boolean',
+            'office' => 'required|boolean',
+            'r' => 'required|boolean',
+            'go' =>'required|boolean',
+            'ruby' => 'required|boolean',
+            'asp' => 'required|boolean',
+            'scala' => 'required|boolean',
         ]);
-
-        /* Skill Conditions */
-        if(isset($request['java'])){
-            $hasJava = "1";
-        }
-        else{
-            $hasJava = "0";
-        }
-        if(isset($request['python'])){
-            $hasPython = "1";
-        }
-        else{
-            $hasPython = "0";
-        }
-        if(isset($request['c'])){
-            $hasC = "1";
-        }
-        else{
-            $hasC = "0";
-        }
-        if(isset($request['csharp'])){
-            $hasCSharp = "1";
-        }
-        else{
-            $hasCSharp = "0";
-        }
-        if(isset($request['cplus'])){
-            $hasCPlus = "1";
-        }
-        else{
-            $hasCPlus = "0";
-        }
-        if(isset($request['php'])){
-            $hasPHP = "1";
-        }
-        else{
-            $hasPHP = "0";
-        }
-        if(isset($request['html'])){
-            $hasHTML = "1";
-        }
-        else{
-            $hasHTML = "0";
-        }
-        if(isset($request['css'])){
-            $hasCSS = "1";
-        }
-        else{
-            $hasCSS = "0";
-        }
-        if(isset($request['javascript'])){
-            $hasJavaScript = "1";
-        }
-        else{
-            $hasJavaScript = "0";
-        }
-        if(isset($request['sql'])){
-            $hasSQL = "1";
-        }
-        else{
-            $hasSQL = "0";
-        }
-        if(isset($request['unix'])){
-            $hasUNIX = "1";
-        }
-        else{
-            $hasUNIX = "0";
-        }
-        if(isset($request['winserver'])){
-            $hasWinServer = "1";
-        }
-        else{
-            $hasWinServer = "0";
-        }
-        if(isset($request['windesktop'])){
-            $hasWinDesktop= "1";
-        }
-        else{
-            $hasWinDesktop = "0";
-        }
-        if(isset($request['linuxdesktop'])){
-            $hasLinuxDesktop = "1";
-        }
-        else{
-            $hasLinuxDesktop = "0";
-        }
-        if(isset($request['macosdesktop'])){
-            $hasMacOsDesktop = "1";
-        }
-        else{
-            $hasMacOsDesktop = "0";
-        }
-        if(isset($request['pearl'])){
-            $hasPearl = "1";
-        }
-        else{
-            $hasPearl = "0";
-        }
-        if(isset($request['bash'])){
-            $hasBash = "1";
-        }
-        else{
-            $hasBash = "0";
-        }
-        if(isset($request['batch'])){
-            $hasBatch = "1";
-        }
-        else{
-            $hasBatch = "0";
-        }
-        if(isset($request['cisco'])){
-            $hasCisco = "1";
-        }
-        else{
-            $hasCisco = "0";
-        }
-        if(isset($request['office'])){
-            $hasOffice = "1";
-        }
-        else{
-            $hasOffice= "0";
-        }
-        if(isset($request['r'])){
-            $hasR = "1";
-        }
-        else{
-            $hasR = "0";
-        }
-        if(isset($request['go'])){
-            $hasGo = "1";
-        }
-        else{
-            $hasGo = "0";
-        }
-        if(isset($request['ruby'])){
-            $hasRuby = "1";
-        }
-        else{
-            $hasRuby = "0";
-        }
-        if(isset($request['asp'])){
-            $hasASP = "1";
-        }
-        else{
-            $hasASP = "0";
-        }
-        if(isset($request['scala'])){
-            $hasScala = "1";
-        }
-        else{
-            $hasScala = "0";
-        }
-
-        /* Hours Condition */
-        if($request['hours'] == "casual" || $request['hours'] == "fulltime" || $request['hours'] == "parttime"){
-            $hours = $request['hours'];
-        }
 
         Job::create([
             'title' => $request['title'],
             'description' => $request['description'],
-            'hours' => $hours,
+            'hours' => $request['hours'],
             'salary' => $request['salary'],
-            'availablefrom' => $request['availablefrom'],
-            'location' => $request['location'],
             'startdate' => $request['startdate'],
-            'java' => $hasJava,
-            'python' => $hasPython,
-            'c' => $hasC,
-            'csharp' => $hasCSharp,
-            'cplus' => $hasCPlus,
-            'php' => $hasPHP,
-            'html' => $hasHTML,
-            'css' => $hasCSS,
-            'javascript' => $hasJavaScript,
-            'sql' => $hasSQL,
-            'unix' => $hasUNIX,
-            'winserver' => $hasWinServer,
-            'windesktop' => $hasWinDesktop,
-            'linuxdesktop' => $hasLinuxDesktop,
-            'macosdesktop' => $hasMacOsDesktop,
-            'pearl' => $hasPearl,
-            'bash' => $hasBash,
-            'batch' => $hasBatch,
-            'cisco' => $hasCisco,
-            'office' => $hasCisco,
-            'r' => $hasR,
-            'go' => $hasGo,
-            'ruby' => $hasRuby,
-            'asp' => $hasASP,
-            'scala' => $hasScala,
+            'state' => $request['state'],
+            'city' => $request['city'],
+            'java' => $request['java'],
+            'python' => $request['python'],
+            'c' => $request['c'],
+            'csharp' => $request['csharp'],
+            'cplus' => $request['cplus'],
+            'php' => $request['php'],
+            'html' => $request['html'],
+            'css' => $request['css'],
+            'javascript' => $request['javascript'],
+            'sql' => $request['sql'],
+            'unix' => $request['unix'],
+            'winserver' => $request['winserver'],
+            'windesktop' => $request['windesktop'],
+            'linuxdesktop' => $request['linuxdesktop'],
+            'macosdesktop' => $request['macosdesktop'],
+            'pearl' => $request['pearl'],
+            'bash' => $request['bash'],
+            'batch' => $request['batch'],
+            'cisco' => $request['cisco'],
+            'office' => $request['office'],
+            'r' => $request['r'],
+            'go' => $request['go'],
+            'ruby' => $request['ruby'],
+            'asp' => $request['asp'],
+            'scala' => $request['scala'],
             'employerid' => Auth::user()->id
         ]);
 
-        return redirect('/home');
+        return Redirect::route('jobs');
     }
+
     /**
-     * Show post page.
+     * Show post job page.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
         return view('post');
+    }
+
+    /**
+     * Show job page with jobs posted by user.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function display()
+    {
+        $jobs = Job::where('employerid', Auth::user()->id)->get();
+
+        return view('jobs')->with(compact('jobs'));
     }
 }

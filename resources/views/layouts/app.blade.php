@@ -71,6 +71,11 @@
                                     Post a Job
                                 </a>
                             </li>
+                            <li>
+                                <a href="{{ route('jobs') }}">
+                                    Your Jobs
+                                </a>
+                            </li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                     {{ Auth::user()->name }} <span class="caret"></span>
@@ -104,7 +109,7 @@
         @yield('content')
         <br><br>
         <footer>
-            <p>Copyright © JobsAustralia.tech 2017 &bull; <i class="fa fa-github" aria-hidden="true"></i> <a href="https://github.com/jobsaustralia/">GitHub</a> &bull; <a href="LICENSE">License</a></p>
+            <p>Copyright © JobsAustralia.tech 2017 &bull; <i class="fa fa-github" aria-hidden="true"></i> <a href="https://github.com/jobsaustralia/">GitHub</a> &bull; <a href="{{ route('terms') }}">Legal</a></p>
         </footer>
     </div>                       
          <!-- Scripts -->

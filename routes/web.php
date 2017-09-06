@@ -1,7 +1,5 @@
 <?php
 
-use App\Job;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -31,26 +29,43 @@ Route::get('/contact', function (){
     return view('contact');
 })->name('contact');
 
-Route::get('/api/jobs', function (){
-	return Job::all();
-});
+Route::get('/terms', function (){
+    return view('terms');
+})->name('terms');
 
 /* GET Controller Routes */
 
-Route::get('/home', 'HomeController@index')->name('home');
-
 Route::get('/profile', 'ProfileController@index')->name('profile');
+
+Route::get('/profile/edit', 'ProfileController@editIndex')->name('editProfile');
 
 Route::get('/post', 'JobController@index')->name('post');
 
+Route::get('/jobs', 'JobController@display')->name('jobs');
+
 /* POST Controller Routes*/
+
+Route::post('/profile/delete', 'ProfileController@delete')->name('delete');
 
 Route::post('/submit', 'JobController@create')->name('post-submit');
 
 Route::post('/enquire', 'ContactController@send')->name('enquire');
 
+Route::post('/update', 'ProfileController@updateProfile')->name('update');
+
 /* Authentication Routes */
 
 Auth::routes();
 
-Route::post('/delete', 'Auth\DeleteController@delete')->name('delete');
+/* API Routes */
+
+Route::get('/api/user', function(){
+	if(Auth::user() != null){
+		return Auth::user();
+	}
+	else{
+		return "You are not logged in!";
+	}
+});
+
+Route::get('/api/jobs/{state}', 'JobController@getJobs')->name('getJobs');
