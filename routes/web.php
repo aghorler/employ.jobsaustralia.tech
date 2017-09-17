@@ -15,7 +15,7 @@
 
 Route::get('/', function () {
     return view('index');
-});
+})->name('index');
 
 Route::get('/about', function (){
     return view('about');
@@ -33,39 +33,48 @@ Route::get('/terms', function (){
     return view('terms');
 })->name('terms');
 
+
 /* GET Controller Routes */
+
+Route::get('/job/edit/{id}', 'JobController@indexEdit')->name('displayEditJob');
+
+Route::get('/job/delete/{id}', 'JobController@indexDelete')->name('displayDeleteJob');
+
+Route::get('/job/{id}/applicants', 'ApplicationController@index')->name('applicants');
+
+Route::get('/jobs', 'JobController@indexJobs')->name('jobs');
+
+Route::get('/post', 'JobController@indexPost')->name('post');
 
 Route::get('/profile', 'ProfileController@index')->name('profile');
 
 Route::get('/profile/edit', 'ProfileController@editIndex')->name('editProfile');
 
-Route::get('/post', 'JobController@index')->name('post');
 
-Route::get('/jobs', 'JobController@display')->name('jobs');
+/* POST Controller Routes */
 
-/* POST Controller Routes*/
+Route::post('/enquire', 'ContactController@send')->name('enquire');
+
+Route::post('/job/delete', 'JobController@delete')->name('deleteJob');
+
+Route::post('/job/update', 'JobController@updateJob')->name('updateJob');
 
 Route::post('/profile/delete', 'ProfileController@delete')->name('delete');
 
 Route::post('/submit', 'JobController@create')->name('post-submit');
 
-Route::post('/enquire', 'ContactController@send')->name('enquire');
+Route::post('/update', 'ProfileController@update')->name('update');
 
-Route::post('/update', 'ProfileController@updateProfile')->name('update');
 
 /* Authentication Routes */
 
 Auth::routes();
 
+
 /* API Routes */
 
-Route::get('/api/user', function(){
-	if(Auth::user() != null){
-		return Auth::user();
-	}
-	else{
-		return "You are not logged in!";
-	}
-});
+/* Return job by ID. */
+Route::get('/api/job/{id}/token/{token}', 'APIController@getJob')->name('getJob');
 
-Route::get('/api/jobs/{state}', 'JobController@getJobs')->name('getJobs');
+/* Return applicants to a job by job ID. */
+Route::get('/api/applicants/job/{id}/token/{token}', 'APIController@getApplicants')->name('getApplicants');

@@ -10,7 +10,8 @@
                 <div class="panel-body">
                     <p><strong>Name:</strong> {{ Auth::user()->name }}</p>
                     <p><strong>Email:</strong> {{ Auth::user()->email }}</p>
-
+                    <p><strong>State:</strong> {{ Auth::user()->state }}</p>
+                    <p><strong>City:</strong> {{ Auth::user()->city }}</p>
                     <hr>
 
                     <p>
@@ -30,14 +31,28 @@
                     </p>
 
                     <p>
-                        <button id="confirm-delete" class="btn btn-primary">
+                        <button id="confirm-delete" class="btn btn-danger">
                             Delete account
                         </button>
                     </p>
 
-                    <p id="confirm-delete-content" style="display: none;">
-                        Confirm deletion: <a class="text-warning" href="{{ route('delete') }}" onclick="event.preventDefault(); document.getElementById('delete-form').submit();">I really want to delete my account.</a>
-                    </p>
+                    <div id="confirm-delete-content" style="display: none;">
+                        <p>
+                            Confirm deletion: <a id="really-confirm-delete" class="text-danger" href="javascript:void(0)">I really want to delete my account.</a>
+                        </p>
+
+                        <div id="really-confirm-delete-content" style="display: none;">
+                            <p>
+                                <strong>Deleting your account will delete your current active jobs, and any active job applications.</strong>
+                            </p>
+                            <p>
+                                <strong>It is impossible to recover an account, or its data, after deletion!</strong>
+                            </p>
+                            <p>
+                                <a class="text-danger" title="Clicking this will delete your account without further prompt." href="{{ route('delete') }}" onclick="event.preventDefault(); document.getElementById('delete-form').submit();">I am <strong>positively certain</strong> I want to delete my account.</a>
+                            </p>
+                        </div>
+                    </div>
 
                     <form id="delete-form" action="{{ route('delete') }}" method="POST" style="display: none;">
                         {{ csrf_field() }}

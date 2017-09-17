@@ -11,29 +11,34 @@
                     <div class="panel-heading">{{ $job->title }}</div>
 
                     <div class="panel-body">
-                        
-                        <p><strong>Description:</strong> {{ $job->description }}</p>
+
+                        <p>{{ $job->description }}</p>
 
                         <hr>
-
-                        <p><strong>Hours:</strong> {{ $job->hours }}</p>
-                        <p><strong>Salary:</strong> {{ $job->salary }}</p>
+						<p><strong>Term:</strong> @if ($job->term == "fixed") Fixed @elseif ($job->term == "permanent") Permanent @endif </p>
+                        <p><strong>Hours:</strong> @if ($job->hours == "fulltime") Full time @elseif ($job->hours == "parttime") Part time @elseif ($job->hours == "casual") Casual @endif </p>
+                        <p><strong>Salary:</strong> &#36;{{ number_format($job->salary) }} @if ($job->rate == "hourly") per hour @elseif ($job->rate == "weekly") per week @elseif ($job->rate == "monthly") per month @else per annum @endif </p>
                         <p><strong>Start Date:</strong> {{ $job->startdate }}</p>
-                        <p><strong>State:</strong> {{ $job->state }}</p>
-                        <p><strong>City:</strong> {{ $job->city }}</p>
-                        
+                        <p><strong>Location:</strong> {{ $job->city }}, @if ($job->state == "vic") Victoria @elseif ($job->state == "nsw") New South Wales @elseif ($job->state == "qld") Queensland @elseif ($job->state == "wa") Western Australia @elseif ($job->state == "sa") South Australia @elseif ($job->state == "tas") Tasmania @elseif ($job->state == "act") Australian Capital Territory @elseif ($job->state == "nt") Northern Territory @elseif ($job->state == "oth") Other Australian Region @endif </p>
+
                         <hr>
-                        
+
                         <p>
-                            <button class="btn btn-primary">
-                                Edit job
-                            </button>
+                            <a href="{{route('applicants', $job->id)}}" class="btn btn-primary">
+                                View applicants
+                            </a>
                         </p>
-                        
+
+                        <hr>
+
                         <p>
-                            <button class="btn btn-primary">
+                            <a href="{{route('displayEditJob', $job->id)}}" class="btn btn-primary">
+                                Edit job
+                            </a>
+
+                            <a href="{{route('displayDeleteJob', $job->id)}}" class="btn btn-danger">
                                 Delete job
-                            </button>
+                            </a>
                         </p>
                     </div>
                 </div>

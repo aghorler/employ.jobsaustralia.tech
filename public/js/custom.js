@@ -21,7 +21,7 @@ function toggleTeamDisplay(){
 function randomiseTeam(){
     function shuffle(a){
         var j, x, i;
-        for (i = a.length; i; i--) {
+        for (i = a.length; i; i--){
             j = Math.floor(Math.random() * i);
             x = a[i - 1];
             a[i - 1] = a[j];
@@ -57,8 +57,12 @@ function randomiseTeam(){
 
 if(document.getElementById("profile") !== null){
     document.getElementById("confirm-delete").addEventListener("click", toggleDisplay);
+    document.getElementById("really-confirm-delete").addEventListener("click", toggleDisplay);
     document.getElementById("change-password").addEventListener("click", toggleDisplay);
 }
 else if(document.getElementById("team") !== null){
     document.addEventListener('DOMContentLoaded', randomiseTeam);
+}
+else if(document.getElementById("job") !== null){
+    document.getElementById("delete-job").addEventListener("click", toggleDisplay);
 }

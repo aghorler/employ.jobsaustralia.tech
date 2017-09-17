@@ -2,51 +2,32 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Auth;
 use App\User;
+
+use Auth;
+
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 
-class ProfileController extends Controller
-{
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
+class ProfileController extends Controller{
+
+    /* Create a new controller instance. */
+    public function __construct(){
         $this->middleware('auth');
     }
 
-    /**
-     * Show profile.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
+    /* Display profile page. */
+    public function index(){
         return view('profile');
     }
 
-    /**
-     * Show edit profile form.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function editIndex()
-    {
+    /* Display edit profile page. */
+    public function editIndex(){
         return view('edit');
     }
 
-    /**
-     * Update profile.
-     *
-     * @param  Illuminate\Http\Request  $request
-     * @return Illuminate\Support\Facades\Redirect
-     */
-    public function updateProfile(Request $request)
-    {
+    /* Update user. */
+    public function update(Request $request){
         $user = Auth::user();
 
         $this->validate($request, [
@@ -62,13 +43,8 @@ class ProfileController extends Controller
         return Redirect::route('profile');
     }
 
-    /**
-     * Delete account.
-     *
-     * @return Illuminate\Support\Facades\Redirect
-     */
-    public function delete()
-    {
+    /* Delete user. */
+    public function delete(){
         $id = Auth::user()->id;   
         User::destroy($id);
 

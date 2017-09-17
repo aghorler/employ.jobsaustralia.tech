@@ -15,11 +15,11 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>JobsAustalia.tech Employers</title>
+    <title>JobsAustralia.tech Employers</title>
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 
     <!-- Icons -->
@@ -46,7 +46,7 @@
 
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        JobsAustalia.tech Employers
+                        JobsAustralia.tech Employers
                     </a>
                 </div>
 
@@ -115,5 +115,8 @@
          <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/custom.js') }}"></script>
+    @if(substr(Request::path(), -10) == "applicants")
+        <script src="{{ asset('js/match.js') }}"></script>
+    @endif
 </body>
 </html>
