@@ -43,10 +43,6 @@ body {
     color: #CCC;
 }
 
-/*.panel-default {
-    border-color: #1d262b;
-}*/
-
 /* jobsaustralia.tech nav bar hover colour. */
 .navbar-default .navbar-brand:focus, .navbar-default .navbar-brand:hover {
     color: white;
@@ -62,4 +58,68 @@ hr.skill-divider {
     margin-left: 75px;
     margin-right: 75px;
     border-top: 1px solid #f5f5f5;
+}
+
+/* Hide an element by default. */
+.default-hide {
+    display: none;
+}
+
+/* Font size for page headings. */
+.page-heading {
+    font-size: 145%;
+    margin: 0 0;
+}
+
+/* Font size for notice icons. */
+.panel-notice-icon {
+    font-size: 200px;
+}
+
+/* Font size for animated notice icons. */
+.panel-notice-icon-animated {
+    font-size: 75px;
+}
+
+/* Font size for feature advertisement icons on the home page. */
+.index-ad-panel {
+    font-size: 100px;
+}
+
+/* Style matching skills in job view as bold and green. */
+.skill-match {
+    font-weight: bold;
+    color: green;
+}
+
+/* Expired stamp. */
+.expired {
+    background-image: url("/img/expired.png");
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+/* Adjust font size of navigation branding depending on device width. */
+@media (max-width: 370px) {
+    .navbar-brand {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 340px) {
+    .navbar-brand {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 310px) {
+    .navbar-brand {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 275px) {
+    .navbar-brand {
+        font-size: 10px;
+    }
 }

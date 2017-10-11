@@ -69,6 +69,12 @@ Route::post('/submit', 'JobController@create')->name('post-submit');
 
 Route::post('/update', 'ProfileController@update')->name('update');
 
+Route::post('/reject', 'ApplicationController@reject')->name('reject');
+
+Route::post('/engage', 'ApplicationController@engage')->name('engage');
+
+Route::post('/profile/notifications/update', 'ProfileController@updateNotificationSettings')->name('updateNotificationSettings');
+
 
 /* Authentication Routes */
 

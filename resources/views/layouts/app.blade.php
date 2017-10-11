@@ -4,13 +4,20 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Match-making for employers in the Australian IT sector.">
+    <meta name="description" content="Matchmaking for employers in the Australian IT sector.">
     <meta name="author" content="Aaron Horler, Ozlem Kirmizi, Kim Luu, Melissa Nguyen, and Dennis Mihalache.">
-    <meta name="url" content="https://employ.jobsaustralia.tech">
+    <meta name="url" content="{{ Request::url() }}">
+
+    <!-- Geo tags -->
+    <meta name="geo.region" content="AU-VIC">
+    <meta name="geo.placename" content="Melbourne">
+    <meta name="geo.position" content="-37.80742;144.963795">
+    <meta name="ICBM" content="-37.80742, 144.963795">
 
     <!-- Privacy -->
     <meta name="referrer" content="no-referrer">
     <meta http-equiv="x-dns-prefetch-control" content="off">
+    <meta name="format-detection" content="telephone=no">
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -19,17 +26,22 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+    @if(Request::getHttpHost() == "employ.jobsaustralia.tech")
+        <link href="{{ asset('css/style.min.css') }}" rel="stylesheet">
+    @else
+        <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+    @endif
     <link href="{{ asset('vendor/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('vendor/icomoon/style.css') }}" rel="stylesheet" type="text/css">
 
+    <link rel="license" href="/terms">
+
     <!-- Icons -->
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/manifest.json">
-    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
-    <meta name="theme-color" content="#ffffff">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon-16x16.png') }}">
+    <link rel="manifest" href="{{ asset('manifest.json') }}">
+    <meta name="theme-color" content="#1d272c">
 </head>
 <body>
     <div id="app">
@@ -46,8 +58,8 @@
                     </button>
 
                     <!-- Branding Image -->
-                    <a class="navbar-brand" href="{{ url('/') }}">
-                        <span class="icon-jobsaustralia-logo"></span>  JobsAustralia.tech Employers
+                    <a class="navbar-brand" href="{{ asset('/') }}">
+                        <span class="icon-jobsaustralia-logo"></span> JobsAustralia.tech Employers
                     </a>
                 </div>
 
@@ -79,7 +91,7 @@
                             </li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                    {{ Auth::user()->name }} <span class="caret"></span>
+                                    {{ substr(Auth::user()->name, 0, 20) }} <span class="caret"></span>
                                 </a>
 
                                 <ul class="dropdown-menu" role="menu">
@@ -93,7 +105,7 @@
                                             Logout
                                         </a>
 
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        <form id="logout-form" class="default-hide" action="{{ route('logout') }}" method="POST">
                                             {{ csrf_field() }}
                                         </form>
                                     </li>
@@ -110,12 +122,22 @@
         <footer>
             <p>Copyright © JobsAustralia.tech 2017 &bull; <i class="fa fa-github" aria-hidden="true"></i> <a href="https://github.com/jobsaustralia/">GitHub</a> &bull; <a href="{{ route('terms') }}">Legal</a></p>
         </footer>
-    </div>                       
-         <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}"></script>
-    <script src="{{ asset('js/custom.js') }}"></script>
-    @if(substr(Request::path(), -10) == "applicants")
-        <script src="{{ asset('js/match.js') }}"></script>
+    </div>
+
+    <!-- Scripts -->
+    <script src="{{ asset('vendor/jquery/jquery-3.2.1.min.js') }}"></script>
+    <script src="{{ asset('vendor/bootstrap/bootstrap.min.js') }}"></script>
+    @if(Request::getHttpHost() == "employ.jobsaustralia.tech")
+        <script src="{{ asset('js/custom.min.js') }}"></script>
+    @else
+        <script src="{{ asset('js/custom.js') }}"></script>
+    @endif
+    @if(substr(Request::path(), 0, 4) === 'job/')
+        @if(Request::getHttpHost() == "employ.jobsaustralia.tech")
+            <script src="{{ asset('js/match.min.js') }}"></script>
+        @else
+            <script src="{{ asset('js/match.js') }}"></script>
+        @endif
     @endif
 </body>
 </html>

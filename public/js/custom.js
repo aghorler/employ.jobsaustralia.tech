@@ -1,19 +1,19 @@
 /* Generic function to toggle the display of an element. */
-function toggleDisplay(){
+function toggleDisplay(event){
     event.preventDefault();
 
     var element = document.getElementById(event.target.id + "-content");
     
-    if(element.style.display == "none"){
-        element.style.display = "block";
+    if(element.style.display == "block"){
+        element.style.display = "none";
     }
     else{
-        element.style.display = "none";
+        element.style.display = "block";
     }
 }
 
 /* Function to toggle the display of each team member on the about page. */
-function toggleTeamDisplay(){
+function toggleTeamDisplay(event){
     document.getElementById("dennis-content").style.display = "none";
     document.getElementById("aaron-content").style.display = "none";
     document.getElementById("ozlem-content").style.display = "none";
@@ -62,7 +62,7 @@ function randomiseTeam(){
 }
 
 /* Function to submit POST data to server with form in the background. */
-function submitForm(){
+function submitForm(event){
     event.preventDefault();
     document.getElementById(event.target.id + "-form").submit();
 }
@@ -97,7 +97,7 @@ function gitHubVerifySkills(){
 
         /* Get programming skills for job. */
         $.getJSON("/api/job/" + jobID + "/token/" + token, function(job){
-            skills = [job.java, job.python, job.c, job.csharp, job.cplus, job.php, job.html, job.css, job.javascript, job.sql, job.pearl, job.bash, job.batch, job.r, job.go, job.ruby, job.asp, job.scala];
+            skills = [job.java, job.python, job.c, job.csharp, job.cplus, job.php, job.html, job.css, job.javascript, job.sql, job.perl, job.bash, job.batch, job.r, job.go, job.ruby, job.asp, job.scala, job.actionscript, job.assembly, job.autohotkey, job.coffeescript, job.d, job.fsharp, job.haskell, job.matlab, job.objectivec, job.objectivecplus, job.pascal, job.powershell, job.rust, job.swift, job.typescript, job.vue, job.webassembly, job.apache, job.docker, job.nginx, job.dns];
         })
         .then(function(){
 
@@ -139,13 +139,13 @@ function gitHubVerifySkills(){
                         else if(skills[9] && data[i].language == "SQL"){
                             count++;
                         }
-                        else if(skills[10] && data[i].language == "Pearl"){
+                        else if(skills[10] && data[i].language == "Perl"){
                             count++;
                         }
-                        else if(skills[11] && data[i].language == "Bash"){
+                        else if(skills[11] && data[i].language == "Shell"){
                             count++;
                         }
-                        else if(skills[12] && data[i].language == "Batch"){
+                        else if(skills[12] && data[i].language == "Batchfile"){
                             count++;
                         }
                         else if(skills[13] && data[i].language == "R"){
@@ -161,6 +161,69 @@ function gitHubVerifySkills(){
                             count++;
                         }
                         else if(skills[17] && data[i].language == "Scala"){
+                            count++;
+                        }
+                        else if(skills[18] && data[i].language == "ActionScript"){
+                            count++;
+                        }
+                        else if(skills[19] && data[i].language == "WebAssembly"){
+                            count++;
+                        }
+                        else if(skills[20] && data[i].language == "AutoHotkey"){
+                            count++;
+                        }
+                        else if(skills[21] && data[i].language == "CoffeeScript"){
+                            count++;
+                        }
+                        else if(skills[22] && data[i].language == "D"){
+                            count++;
+                        }
+                        else if(skills[23] && data[i].language == "F#"){
+                            count++;
+                        }
+                        else if(skills[24] && data[i].language == "Haskell"){
+                            count++;
+                        }
+                        else if(skills[25] && data[i].language == "Matlab"){
+                            count++;
+                        }
+                        else if(skills[26] && data[i].language == "Objective-C"){
+                            count++;
+                        }
+                        else if(skills[27] && data[i].language == "Objective-C++"){
+                            count++;
+                        }
+                        else if(skills[28] && data[i].language == "Pascal"){
+                            count++;
+                        }
+                        else if(skills[29] && data[i].language == "PowerShell"){
+                            count++;
+                        }
+                        else if(skills[30] && data[i].language == "Rust"){
+                            count++;
+                        }
+                        else if(skills[31] && data[i].language == "Swift"){
+                            count++;
+                        }
+                        else if(skills[32] && data[i].language == "TypeScript"){
+                            count++;
+                        }
+                        else if(skills[33] && data[i].language == "Vue"){
+                            count++;
+                        }
+                        else if(skills[34] && data[i].language == "WebAssembly"){
+                            count++;
+                        }
+                        else if(skills[35] && data[i].language == "ApacheConf"){
+                            count++;
+                        }
+                        else if(skills[36] && data[i].language == "Dockerfile"){
+                            count++;
+                        }
+                        else if(skills[37] && data[i].language == "Nginx"){
+                            count++;
+                        }
+                        else if(skills[38] && data[i].language == "DNS Zone"){
                             count++;
                         }
                     }
@@ -220,18 +283,56 @@ function applySalaryLogic(){
     }
 }
 
+/* Importance logic. */
+function applyImportanceLoic(){
+    if(this.id == "mostimportant"){
+        document.getElementById("leastimportant").children[1].disabled = null;
+        document.getElementById("leastimportant").children[2].disabled = null;
+        document.getElementById("leastimportant").children[3].disabled = null;
+
+        if(this.value == "skills"){
+            document.getElementById("leastimportant").children[1].disabled = "disabled";
+        }
+        else if(this.value == "education"){
+            document.getElementById("leastimportant").children[2].disabled = "disabled";
+        }
+        else if(this.value == "experience"){
+            document.getElementById("leastimportant").children[3].disabled = "disabled";
+        }
+    }
+    else if(this.id == "leastimportant"){
+        document.getElementById("mostimportant").children[1].disabled = null;
+        document.getElementById("mostimportant").children[2].disabled = null;
+        document.getElementById("mostimportant").children[3].disabled = null;
+
+        if(this.value == "skills"){
+            document.getElementById("mostimportant").children[1].disabled = "disabled";
+        }
+        else if(this.value == "education"){
+            document.getElementById("mostimportant").children[2].disabled = "disabled";
+        }
+        else if(this.value == "experience"){
+            document.getElementById("mostimportant").children[3].disabled = "disabled";
+        }
+    }
+}
+
 /* Function to (roughly) get the users location by their IP address using an external resource. */
 function getLocationByIP(){
-    /* This resource (freegeoip.net) may be blocked by some ad blocking and privacy software. In such a case, this will silently fail. */
-    var resource = "https://freegeoip.net/json/";
+    /* Respect do-not-track setting. */
+    if(navigator.doNotTrack !== "1"){
 
-    $.getJSON(resource, function(location){
-        /* Only autofill if country is detected as Australia. */
-        if(location.country_code == "AU"){
-            document.getElementById("state").value = location.region_code.toLowerCase();
-            document.getElementById("city").value = location.city;
-        }
-    });
+        /* This resource (freegeoip.net) may be blocked by some ad blocking and privacy software. In such a case, this will silently fail. */
+        var resource = "https://freegeoip.net/json/";
+
+        $.getJSON(resource, function(location){
+            /* Only autofill if country is detected as Australia. */
+            if(location.country_code == "AU"){
+                document.getElementById("state").value = location.region_code.toLowerCase();
+                document.getElementById("city").value = location.city;
+            }
+        });
+    }
 }
 
 /* Moo. */
@@ -259,15 +360,21 @@ else if(document.getElementById("delete-job") !== null){
 else if(document.getElementById("post") !== null){
     document.getElementById("hours").addEventListener("change", applySalaryLogic);
     document.getElementById("rate").addEventListener("change", applySalaryLogic);
+    document.getElementById("mostimportant").addEventListener("change", applyImportanceLoic);
+    document.getElementById("leastimportant").addEventListener("change", applyImportanceLoic);
     document.getElementById("cow").addEventListener("change", moo);
 }
 else if(document.getElementById("edit-job") !== null){
     document.getElementById("hours").addEventListener("change", applySalaryLogic);
     document.getElementById("rate").addEventListener("change", applySalaryLogic);
+    document.getElementById("mostimportant").addEventListener("change", applyImportanceLoic);
+    document.getElementById("leastimportant").addEventListener("change", applyImportanceLoic);
     document.getElementById("cow").addEventListener("change", moo);
 }
 else if(document.getElementById("application") !== null){
     document.addEventListener('DOMContentLoaded', gitHubVerifySkills);
+    document.getElementById("reject").addEventListener("click", submitForm);
+    document.getElementById("engage").addEventListener("click", submitForm);
 }
 else if(document.getElementById("register") !== null){
     document.addEventListener('DOMContentLoaded', getLocationByIP);

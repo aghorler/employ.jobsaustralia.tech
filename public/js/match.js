@@ -1,5 +1,5 @@
 /* Function to print applicant to panel in view. */
-function printApplicant(id, name, message, percentageMatch){
+function printApplicant(id, name, message, engaged, percentageMatch){
     var display = document.getElementById("applicants");
 
     var panel = document.createElement("div");
@@ -15,6 +15,12 @@ function printApplicant(id, name, message, percentageMatch){
     var body = document.createElement("div");
     body.className = "panel-body";
 
+    if(engaged){
+        var p0 = document.createElement("p");
+        p0.className = "skill-match";
+        p0.innerHTML = "You have entered discussion with this job seeker."
+    }
+
     var p1 = document.createElement("p");
     p1.innerHTML = message;
 
@@ -29,11 +35,16 @@ function printApplicant(id, name, message, percentageMatch){
 
     panel.appendChild(heading);
     panel.appendChild(body);
-    heading.append(match);
-    body.append(p1);
-    body.append(hr1);
-    body.append(p6);
-    p6.append(apply);
+    $(heading).append(match);
+    
+    if(engaged){
+        $(body).append(p0);
+    }
+
+    $(body).append(p1);
+    $(body).append(hr1);
+    $(body).append(p6);
+    $(p6).append(apply);
     display.appendChild(panel);
 
     document.getElementById("loading").style.display = "none";
@@ -64,11 +75,25 @@ function match(){
 
     /* Array to store applicant for later use. */
     var app = [];
+    
+    /* Array of ranking in order of importance. */
+    var ranking = [];
+    
+    /* Rank weightings. */
+    var weightOne = 0.4;
+    var weightTwo = 0.35;
+    var weightThree = 0.25;
+    
+    /* Min. number of years experience for job. */
+    var expJob;
+    
+    /* Min. education level for job. */
+    var eduJob;
 
     /* Get job. */
     $.getJSON("/api/job/" + jobID + "/token/" + token, function(job){
-        input = [job.java, job.python, job.c, job.csharp, job.cplus, job.php, job.html, job.css, job.javascript, job.sql, job.unix, job.winserver, job.windesktop, job.linuxdesktop, job.macosdesktop, job.pearl, job.bash, job.batch, job.cisco, job.office, job.r, job.go, job.ruby, job.asp, job.scala];
-        
+        input = [job.java, job.python, job.c, job.csharp, job.cplus, job.php, job.html, job.css, job.javascript, job.sql, job.unix, job.winserver, job.windesktop, job.linuxdesktop, job.macosdesktop, job.perl, job.bash, job.batch, job.cisco, job.office, job.r, job.go, job.ruby, job.asp, job.scala, job.cow, job.actionscript, job.assembly, job.autohotkey, job.coffeescript, job.d, job.fsharp, job.haskell, job.matlab, job.objectivec, job.objectivecplus, job.pascal, job.powershell, job.rust, job.swift, job.typescript, job.vue, job.webassembly, job.apache, job.aws, job.docker, job.nginx, job.saas, job.ipv4, job.ipv6, job.dns];
+
         /* Determine which bits are non-zero and stores into bitcheck array. */
         var i;
         for(var i = 0; i < input.length; i++){
@@ -76,6 +101,17 @@ function match(){
                 bitCheck.push(i);
             }
         }
+
+        /* Get min. number of years experience for job. */
+        expJob = job.minexperience;
+
+        /* Get min. education level for job. */
+        eduJob = job.mineducation;
+
+        /* Populate ranking array. */
+        ranking[0] = job.rankone;
+        ranking[1] = job.ranktwo;
+        ranking[2] = job.rankthree;
     })
     .then(function(){
 
@@ -91,9 +127,35 @@ function match(){
                     app[i] = applicants[i];
 
                     appIndex[i] = i;
-                    appMatch[i] = [applicants[i].java, applicants[i].python, applicants[i].c, applicants[i].csharp, applicants[i].cplus, applicants[i].php, applicants[i].html, applicants[i].css, applicants[i].javascript, applicants[i].sql, applicants[i].unix, applicants[i].winserver, applicants[i].windesktop, applicants[i].linuxdesktop, applicants[i].macosdesktop, applicants[i].pearl, applicants[i].bash, applicants[i].batch, applicants[i].cisco, applicants[i].office, applicants[i].r, applicants[i].go, applicants[i].ruby, applicants[i].asp, applicants[i].scala];
-                    
-                    /* Match counter. */
+                    appMatch[i] = [applicants[i].java, applicants[i].python, applicants[i].c, applicants[i].csharp, applicants[i].cplus, applicants[i].php, applicants[i].html, applicants[i].css, applicants[i].javascript, applicants[i].sql, applicants[i].unix, applicants[i].winserver, applicants[i].windesktop, applicants[i].linuxdesktop, applicants[i].macosdesktop, applicants[i].perl, applicants[i].bash, applicants[i].batch, applicants[i].cisco, applicants[i].office, applicants[i].r, applicants[i].go, applicants[i].ruby, applicants[i].asp, applicants[i].scala, applicants[i].cow, applicants[i].actionscript, applicants[i].assembly, applicants[i].autohotkey, applicants[i].coffeescript, applicants[i].d, applicants[i].fsharp, applicants[i].haskell, applicants[i].matlab, applicants[i].objectivec, applicants[i].objectivecplus, applicants[i].pascal, applicants[i].powershell, applicants[i].rust, applicants[i].swift, applicants[i].typescript, applicants[i].vue, applicants[i].webassembly, applicants[i].apache, applicants[i].aws, applicants[i].docker, applicants[i].nginx, applicants[i].saas, applicants[i].ipv4, applicants[i].ipv6, applicants[i].dns];
+
+                    /* Get applicant's number of years experience. */
+                    var expApp = applicants[i].experience;
+
+                    /* Get applicant's education level. */
+                    var eduApp = applicants[i].education;
+
+                    /* Determine expMatch. */
+                    if(expApp >= expJob)
+                    {
+                        expMatch = 1;
+                    }
+                    else
+                    {
+                        expMatch = 0;
+                    }
+
+                    /* Determine eduMatch. */
+                    if(eduApp >= eduJob)
+                    {
+                        eduMatch = 1;
+                    }
+                    else
+                    {
+                        eduMatch = 0;
+                    }
+
+                    /* Skill match counter. */
                     var count = 0;
 
                     /* Checks only the values in the positions stored in bitCheck.
@@ -107,8 +169,37 @@ function match(){
                         }
                     }
 
+                    /* Calculate skillMatch. */
+                    var skillMatch = (count / bitCheck.length);
+
+                    /* Copy of ranking array. */
+                    var rankCopy = [];
+
+                    var k;
+                    for(k = 0; k < ranking.length; k++)
+                    {
+                        rankCopy[k] = ranking[k];
+                    }
+
                     /* Calculate percentage match. */
-                    percentageMatch[i] = (count / bitCheck.length) * 100;
+                    var l;
+                    for(l = 0; l < rankCopy.length; l++)
+                    {
+                        if(rankCopy[l] == 'experience')
+                        {
+                            rankCopy[l] = expMatch;
+                        }
+                        else if(rankCopy[l] == 'education')
+                        {
+                            rankCopy[l] = eduMatch;
+                        }
+                        else if(rankCopy[l] == 'skills')
+                        {
+                            rankCopy[l] = skillMatch;
+                        }
+                    }
+
+                    percentageMatch[i] = ((rankCopy[0] * weightOne) + (rankCopy[1] * weightTwo) + (rankCopy[2] * weightThree)) * 100;
                 }
 
                 /* Bubble sort. */
@@ -146,7 +237,7 @@ function match(){
                 var i;
                 for(i = 0; i < app.length; i++){
                     var order = appIndex[i];
-                    printApplicant(app[order].applicationid, app[order].name, app[order].message, Math.round(percentageMatch[i]));
+                    printApplicant(app[order].applicationid, app[order].name, app[order].message, app[order].engaged, Math.round(percentageMatch[i]));
                 }
             }
             else{

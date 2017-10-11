@@ -1,11 +1,12 @@
 {
     "name": "jobsaustralia/employ.jobsaustralia.tech",
-    "description": "Match-making for employers in the Australian IT sector.",
+    "description": "Matchmaking for employers in the Australian IT sector.",
     "keywords": ["rmit", "jobs"],
     "license": "MIT",
     "type": "project",
     "require": {
         "php": ">=5.6.4",
+        "guzzlehttp/guzzle": "^6.3",
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0",
         "webpatser/laravel-uuid": "^2.0"
